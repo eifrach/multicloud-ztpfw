@@ -16,6 +16,11 @@ clusterGroup:
       namespace: open-cluster-management
       channel: release-2.5
       csv: advanced-cluster-management.v2.5.0
+    pipelines:
+      name: openshift-pipelines-operator-rh 
+      namespace: openshift-operators
+      channel: stable
+
 
 
 # argocd project for grouping
@@ -32,16 +37,17 @@ clusterGroup:
       server: "192.168.150.1"
       # maxpv: 10
       # pv_size: "200Gi"
+      #
       # access_modes:  "ReadWriteOnce"
       # claim_policy: "Recycle"
       #
-      #    http:
-      #      name: httpd
-      #      project: hub
-      #      path: charts/ztphub/http
-      #      domain: lab.local
-      # cpu_limit: "200m"
-      # memory_limit: "200Mi"
-      # access_modes: "ReadWriteOnce"
-      # pvc_size: "200Gi"
+    http:
+      name: httpd
+      project: hub
+      path: charts/ztphub/http
+      domain: lab.local
+      cpu_limit: "200m"
+      memory_limit: "200Mi"
+      access_modes: "ReadWriteOnce"
+      pvc_size: "200Gi"
 

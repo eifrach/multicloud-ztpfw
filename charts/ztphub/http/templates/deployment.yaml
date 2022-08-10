@@ -1,7 +1,6 @@
 {{ $http_values := .Values.clusterGroup.applications.http }}
-{{ $domain := "test.local" }} 
-# ! TODO:  need to verify lookup function is working
-# (lookup "config.openshift.io/v1" "IngressController" "openshift-ingress-operator" "default").spec.domain
+# ! {{ $domain := "test.local" }} 
+{{ $domain := (lookup "config.openshift.io/v1" "IngressController" "openshift-ingress-operator" "default").spec.domain }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
