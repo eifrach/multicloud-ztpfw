@@ -1,0 +1,3 @@
+yq
+ansible==4.10.0
+kubernetes==24.2.0
