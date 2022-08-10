@@ -30,6 +30,16 @@ clusterGroup:
 
 # commented out are optional with default values
   applications:
+    acm:
+      name: acm
+      namespace: open-cluster-management
+      project: hub
+      path: common/acm
+      ignoreDifferences:
+      - group: internal.open-cluster-management.io
+        kind: ManagedClusterInfo
+        jsonPointers:
+          - /spec/loggingCA
     nfs:
       name: nfs
       project: cluster
