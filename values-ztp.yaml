@@ -21,5 +21,31 @@ clusterGroup:
   projects:
   - hub
 
+
+# argocd project for grouping
+  projects:
+  - cluster
+  - hub
+
+# commented out are optional with default values
   applications:
- 
+    nfs:
+      name: nfs
+      project: cluster
+      path: charts/ztphub/nfs
+      server: "192.168.150.1"
+      # maxpv: 10
+      # pv_size: "200Gi"
+      # access_modes:  "ReadWriteOnce"
+      # claim_policy: "Recycle"
+      #
+      #    http:
+      #      name: httpd
+      #      project: hub
+      #      path: charts/ztphub/http
+      #      domain: lab.local
+      # cpu_limit: "200m"
+      # memory_limit: "200Mi"
+      # access_modes: "ReadWriteOnce"
+      # pvc_size: "200Gi"
+

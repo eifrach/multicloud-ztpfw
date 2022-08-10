@@ -1,0 +1,14 @@
+{{ $registry_values := .Values.clusterGroup.applications.registry }}
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: data-pvc
+  namespace: {{ $registry_values.namespace | default "ztpfw-registry" | quote }}
+spec:
+  volumeMode: Filesystem
+  resources:
+    requests:
+      storage: 200Gi
+  accessModes:
+    - ReadWriteOnce

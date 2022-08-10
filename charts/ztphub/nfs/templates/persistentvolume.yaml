@@ -1,0 +1,25 @@
+{{ $nfs := .Values.clusterGroup.applications.nfs }}
+
+{{ $count := ( $nfs.maxpv | default 5 | add 1 | int) }}
+{{ $pv := 0 }}
+{{-  range $i, $e :=  until $count }} 
+  {{- if eq $i 10 }} 
+    {{ $pv = printf "pv0%v" (  toString $i ) }}
+  {{- else }}
+    {{ $pv = printf "pv00%v" (  toString $i ) }}
+  {{- end }}
+---
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: {{ $pv }}
+spec:
+  capacity:
+    storage: {{ $nfs.pv_size | default "200Gi" }}
+  accessModes:
+  - {{ $nfs.access_modes | default "ReadWriteOnce" }}
+  nfs:
+    path: /{{ $pv }}
+    server: {{ $nfs.server }}
+  persistentVolumeReclaimPolicy: {{ $nfs.claim_policy | default "Recycle" }}
+{{- end }}
