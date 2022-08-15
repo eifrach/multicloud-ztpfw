@@ -9,6 +9,7 @@ clusterGroup:
   namespaces:
     - open-cluster-management
     - openshift-pipelines
+    - imperative
 
   subscriptions:
     acm:
