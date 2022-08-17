@@ -69,7 +69,7 @@ metadata:
   name: {{ $http_values.name }}-server-route
   namespace: default
 spec:
-  host: http-server.{{ `{{ (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain }}` }}
+  host: http-server.'{{ `{{ (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain }}` }}'
   subdomain: http-server
   port:
     targetPort: 8080
