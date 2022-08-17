@@ -1,5 +1,5 @@
 {{ $http_values := .Values.clusterGroup.applications.http }}
-{{ $domain :=  `{{ (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain }}` }}
+#{{ $domain :=  `{{ (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain }}` }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -69,7 +69,7 @@ metadata:
   name: {{ $http_values.name }}-server-route
   namespace: default
 spec:
-  host: http-server.{{ $domain }}
+  host: http-server.{{ `{{ (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain }}` }}
   subdomain: http-server
   port:
     targetPort: 8080
