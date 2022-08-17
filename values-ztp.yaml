@@ -9,7 +9,7 @@ clusterGroup:
   namespaces:
     - open-cluster-management
     - openshift-pipelines
-#    - imperative #if we can move it to global 
+    - imperative #if we can move it to global 
 
   subscriptions:
     acm:
