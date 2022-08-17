@@ -9,7 +9,7 @@ clusterGroup:
   namespaces:
     - open-cluster-management
     - openshift-pipelines
-    - imperative
+    - imperative #if we can move it to global 
 
   subscriptions:
     acm:
@@ -43,12 +43,11 @@ clusterGroup:
           - /spec/loggingCA
     nfs:
       name: nfs
-      project: cluster
+      project: cluster #optional 
       path: charts/ztphub/nfs
       server: "192.168.150.1"
-      # maxpv: 10
+      # maxpv: 5
       # pv_size: "200Gi"
-      #
       # access_modes:  "ReadWriteOnce"
       # claim_policy: "Recycle"
       #
@@ -56,12 +55,8 @@ clusterGroup:
       name: httpd
       project: hub
       path: charts/ztphub/http
-      domain: lab.local
-      cpu_limit: "200m"
-      memory_limit: "200Mi"
-      access_modes: "ReadWriteOnce"
-      pvc_size: "200Gi"
-
-        #  imperative:
-        #    jobs:
-
+      #domain: lab.local
+      #cpu_limit: "200m"
+      #memory_limit: "200Mi"
+      #access_modes: "ReadWriteOnce"
+      #pvc_size: "200Gi"
