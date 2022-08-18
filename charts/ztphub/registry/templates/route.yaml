@@ -1,0 +1,37 @@
+{{ $registry_values := .Values.clusterGroup.applications.registry }}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    name: {{ $registry_values.name |  default "ztpfw-registry" | quote }}
+  name: {{ $registry_values.name |  default "ztpfw-registry" | quote }}
+  namespace: {{ $registry_values.namespace | default "ztpfw-registry" | quote }}
+  annotations:
+    service.beta.openshift.io/serving-cert-secret-name: ztpfw-registry-tls
+spec:
+  selector:
+    name: {{ $registry_values.name |  default "ztpfw-registry" | quote }}
+  ports:
+  - name: registry
+    port: 443
+    protocol: TCP
+    targetPort: 5000
+  sessionAffinity: None
+  type: ClusterIP
+---
+apiVersion: route.openshift.io/v1
+kind: Route
+metadata:
+  labels:
+    name: {{ $registry_values.name |  default "ztpfw-registry" | quote }}
+  name:  {{ $registry_values.name |  default "ztpfw-registry" | quote }}
+  namespace: {{ $registry_values.namespace | default "ztpfw-registry" | quote }}
+spec:
+  port:
+    targetPort: registry
+  tls:
+    insecureEdgeTerminationPolicy: Redirect
+    termination: reencrypt
+  to:
+    name: {{ $registry_values.name |  default "ztpfw-registry" | quote }}

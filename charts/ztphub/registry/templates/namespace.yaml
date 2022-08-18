@@ -1,0 +1,5 @@
+{{ $registry_values := .Values.clusterGroup.applications.registry }}
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: {{ $registry_values.namespace | default "ztpfw-registry" | quote }}

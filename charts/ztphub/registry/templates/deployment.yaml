@@ -1,0 +1,67 @@
+{{ $registry_values := .Values.clusterGroup.applications.registry }}
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ $registry_values.name | default "ztpfw-registry" | quote }}
+  namespace: {{ $registry_values.namespace | default "ztpfw-registry" | quote }}
+  labels:
+    name: {{ $registry_values.name | default "ztpfw-registry" | quote }}
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: {{ $registry_values.name | default "ztpfw-registry" | quote }}
+  template:
+    metadata:
+      labels:
+        name: {{ $registry_values.name | default "ztpfw-registry" | quote }}
+      namespace: {{ $registry_values.namespace | default "ztpfw-registry" | quote }}
+    spec:
+      containers:
+        - name: {{ $registry_values.name | default "ztpfw-registry" | quote }}
+          image: {{ $registry_values.registry | default "quay.io/jparrill/registry:3" | quote }}
+          imagePullPolicy: Always
+          ports:
+            - name: registry
+              containerPort: 5000
+              protocol: TCP
+          volumeMounts:
+            - name: data
+              mountPath: "/var/lib/registry"
+            - name: certs-secret
+              mountPath: "/certs"
+              readOnly: true
+            - name: auth-secret
+              mountPath: "/auth"
+              readOnly: true
+            - name: registry-conf
+              mountPath: "/etc/docker/registry"
+              readOnly: true
+              subpath: config.yml
+          env:
+            - name: REGISTRY_AUTH
+              value: "htpasswd"
+            - name: REGISTRY_AUTH_HTPASSWD_REALM
+              value: "Registry"
+            - name: REGISTRY_AUTH_HTPASSWD_PATH
+              value: "/auth/htpasswd"
+            - name: REGISTRY_HTTP_TLS_CERTIFICATE
+              value: "/certs/tls.crt"
+            - name: REGISTRY_HTTP_TLS_KEY
+              value: "/certs/tls.key"
+            - name: REGISTRY_HTTP_SECRET
+              value: "ALongRandomSecretForRegistry"
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: data-pvc
+        - name: certs-secret
+          secret:
+            secretName: ztpfw-registry-tls
+        - name: auth-secret
+          secret:
+            secretName: auth
+        - name: registry-conf
+          configMap:
+            name: registry-conf
