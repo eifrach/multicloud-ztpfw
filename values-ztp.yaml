@@ -55,7 +55,7 @@ clusterGroup:
       name: httpd
       project: hub
       path: charts/ztphub/http
-      #cpu_limit: "200m"
-      #memory_limit: "200Mi"
-      #access_modes: "ReadWriteOnce"
-      #pvc_size: "200Gi"
+      # cpu_limit: "200m"
+      # memory_limit: "200Mi"
+      # access_modes: "ReadWriteOnce"
+      # pvc_size: "200Gi"

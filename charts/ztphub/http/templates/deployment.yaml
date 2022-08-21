@@ -1,5 +1,4 @@
 {{ $http_values := .Values.clusterGroup.applications.http }}
-#{{ $domain :=  `{{ (lookup "config.openshift.io/v1" "Ingress" "" "cluster").spec.domain }}` }}
 apiVersion: apps/v1
 kind: Deployment
 metadata:
@@ -40,7 +39,7 @@ metadata:
 spec:
   type: ClusterIP
 {{- if eq $http_values.clusterIP "None" }}
-  clusterIP: None
+  clusterIP: Noneh
 {{- end }}
   selector:
     app: {{ $http_values.name }}
